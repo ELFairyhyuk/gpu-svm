@@ -193,6 +193,7 @@ GpuCache::~GpuCache() {
 }
 
 void GpuCache::getHessianRow(int rowIndex, float_point *devHessianRow) {
+//    printf("get row %d\n",rowIndex);
     TIMER_START(calculateKernelTimer)
     int cacheLocation;
     bool cacheFull;

@@ -17,9 +17,7 @@
 class MultiSmoSolver: public BaseSMO
 {
 public:
-    MultiSmoSolver(const SvmProblem &problem, SvmModel &model, const SVMParam &param) :
-            problem(problem), model(model), param(param), cache(problem, param, problem.isBinary()) {
-    }
+    MultiSmoSolver(const SvmProblem &problem, SvmModel &model, const SVMParam &param);
 
     ~MultiSmoSolver(){
     };
@@ -36,7 +34,9 @@ private:
 
     void init4Training(const SvmProblem &subProblem);
 
-    bool iterate(SvmProblem &subProblem, float_point C);
+    void SelectFirst(int begin1, int end1, int begin2, int end2, float_point CforPositive);
+    void SelectSecond(int begin1, int end1, int begin2, int end2, float_point CforNegative);
+    bool iterate(SvmProblem &subProblem, float_point C, int begin1, int end1, int begin2, int end2);
     int getHessianRow(int rowIndex);
 
     void extractModel(const SvmProblem &subProblem, vector<int> &svIndex, vector<float_point> &coef, float_point &rho) const;
@@ -49,7 +49,9 @@ private:
     }
 
     float_point *devHessianMatrixCache;
-	int numOfElementEachRowInCache;
+    int numOfElementEachRowInCache;
+    int cacheSize;
+    float_point *devSteep;
 
 };
 
